@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#392c2a">
+  <title>Una carta para ti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --paper: #fff8ef;
+      --rose: #f2b7a9;
+      --ink: #392c2a;
+      --sans: "Manrope", sans-serif;
+      --serif: "Cormorant Garamond", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+    }
+
+    .letter {
+      position: relative;
+      display: grid;
+      min-height: 100svh;
+      place-items: center;
+      overflow-x: clip;
+      isolation: isolate;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .letter::before,
+    .letter::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+    }
+
+    .letter::before {
+      z-index: -3;
+      background: url("https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2400&q=85") center 48% / cover no-repeat;
+      transform: scale(1.025);
+      animation: arrive 1.2s ease-out both;
+    }
+
+    .letter::after { z-index: -2; background: rgba(39, 27, 27, 0.48); }
+
+    .petals {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .petal {
+      position: absolute;
+      top: -32px;
+      left: var(--left);
+      width: 15px;
+      height: 22px;
+      border-radius: 100% 0 100% 0;
+      background: #f2b7a9;
+      opacity: 0;
+      animation: drift var(--duration) var(--delay) linear infinite;
+    }
+
+    .petal:nth-child(even) { background: #fff0df; }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      width: min(900px, 100%);
+      padding: 36px 0;
+      animation: lift-in 900ms 120ms both;
+    }
+
+    .eyebrow {
+      margin: 0 0 26px;
+      color: #f5d4c8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 112px;
+      font-weight: 400;
+      line-height: 0.95;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--rose);
+      font-style: italic;
+      animation: soft-glow 3.2s ease-in-out infinite alternate;
+    }
+
+    .message {
+      max-width: 720px;
+      margin: 34px auto 0;
+      color: #fff8ef;
+      font-size: 23px;
+      line-height: 1.65;
+      text-wrap: pretty;
+    }
+
+    .message p { margin: 0 0 20px; }
+    .message .salutation { color: var(--rose); font-family: var(--serif); font-size: 32px; }
+
+    .postscript {
+      width: fit-content;
+      max-width: 100%;
+      margin: 32px auto 0;
+      color: #fff8ef;
+    }
+
+    .postscript summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 4px;
+      border-bottom: 1px solid rgba(255, 248, 239, 0.6);
+      color: var(--paper);
+      font-size: 14px;
+      cursor: pointer;
+      list-style: none;
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    .postscript summary::-webkit-details-marker { display: none; }
+    .postscript summary::after { content: "+"; color: var(--rose); font-size: 20px; }
+    .postscript[open] summary::after { content: "−"; }
+    .postscript summary:hover, .postscript summary:focus-visible { border-color: var(--rose); color: var(--rose); }
+    .postscript summary:focus-visible { outline: 2px solid var(--rose); outline-offset: 5px; }
+
+    .postscript-note {
+      max-width: 560px;
+      margin: 18px auto 0;
+      color: #f9ddd2;
+      font-family: var(--serif);
+      font-size: 27px;
+      line-height: 1.35;
+    }
+
+    .postscript[open] .postscript-note { animation: lift-in 350ms ease both; }
+
+    @keyframes arrive { from { transform: scale(1.07); } to { transform: scale(1.025); } }
+    @keyframes lift-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes soft-glow { from { text-shadow: 0 0 0 rgba(242, 183, 169, 0); } to { text-shadow: 0 0 22px rgba(242, 183, 169, 0.34); } }
+    @keyframes drift {
+      0% { opacity: 0; transform: translate3d(0, -5vh, 0) rotate(0); }
+      12% { opacity: 0.7; }
+      88% { opacity: 0.55; }
+      100% { opacity: 0; transform: translate3d(70px, 110vh, 0) rotate(300deg); }
+    }
+
+    @media (max-width: 600px) {
+      .letter { padding: 40px 24px 72px; }
+      h1 { font-size: 72px; }
+      .eyebrow { margin-bottom: 22px; font-size: 10px; letter-spacing: 1.8px; }
+      .message { margin-top: 26px; font-size: 19px; line-height: 1.55; }
+      .message .salutation { font-size: 27px; }
+      .postscript-note { font-size: 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="letter">
+    <div class="petals" aria-hidden="true">
+      <i class="petal" style="--left: 8%; --duration: 14s; --delay: -8s"></i>
+      <i class="petal" style="--left: 22%; --duration: 18s; --delay: -3s"></i>
+      <i class="petal" style="--left: 43%; --duration: 16s; --delay: -11s"></i>
+      <i class="petal" style="--left: 64%; --duration: 19s; --delay: -5s"></i>
+      <i class="petal" style="--left: 82%; --duration: 15s; --delay: -13s"></i>
+      <i class="petal" style="--left: 94%; --duration: 20s; --delay: -1s"></i>
+    </div>
+    <section class="content" aria-labelledby="letter-title">
+      <p class="eyebrow">Una carta para ti</p>
+      <h1 id="letter-title">Mayte<span>:</span></h1>
+      <div class="message">
+        <p>No sé exactamente cómo empezar esta carta, porque quizá nunca he sido muy bueno para poner en palabras todo lo que siento, pero hay cosas que prefiero decirlas antes de quedarme con ellas.</p>
+        <p>Desde que empezamos a hablar, poco a poco te has convertido en alguien muy especial para mí. Tal vez llevamos relativamente poco tiempo conociéndonos, pero hay algo en ti que hizo que quisiera conocerte más, saber de ti, escucharte y compartir momentos contigo.</p>
+        <p>Me gustas, y no solamente por lo hermosa que eres, sino por la persona que he ido conociendo detrás de eso. Me gusta tu forma de ser, tu manera de expresarte y esas pequeñas cosas que quizá tú ni siquiera notas, pero que para mí hacen que cada vez me intereses más.</p>
+        <p>Sé que acabas de pasar por una relación y entiendo que probablemente necesitas tiempo para ti, para sanar y para ordenar todo lo que sientes. No quiero convertirme en una presión para ti ni hacerte sentir que tienes que corresponderme de alguna manera. Si algo quiero que tengas claro es que respeto completamente tu proceso y tus tiempos.</p>
+        <p>Yo solamente quiero ser sincero contigo: mis intenciones contigo son genuinas. No estoy hablando contigo para pasar el rato ni porque simplemente me pareciste bonita. Me interesa conocerte de verdad y ,solo quiero que me acompañes toda la vida.</p>
+        <p>Quizá las cosas no siempre tienen que suceder rápido. A veces lo bonito está precisamente en ir conociendo a alguien poco a poco, sin forzar nada y dejando que las cosas sucedan naturalmente.</p>
+        <p>Y si algún día decides que no quieres que esto vaya más allá de una amistad, también lo voy a respetar. Obviamente sería difícil para mí, porque cuando alguien realmente te importa, aceptar que quizá no siente lo mismo nunca es sencillo. Pero prefiero ser honesto contigo y contigo misma antes que fingir que no siento nada.</p>
+        <p>Gracias por permitirme conocerte un poco más. No sé qué vaya a pasar entre nosotros, pero sí sé que me alegra haberte conocido y me encanta formar parte de tu vida.</p>
+      </div>
+      <details class="postscript">
+        <summary>Una última cosita</summary>
+        <p class="postscript-note">¿Eso qué tiene que ver?, ¿eso qué tiene que ver? Eso no tiene que ver nada. ¡Ira, güey! ¡Chingas a tu madre, güey!"</p>
+      </details>
+    </section>
+  </main>
+</body>
+</html>
